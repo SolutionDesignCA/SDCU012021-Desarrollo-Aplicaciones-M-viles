@@ -41,12 +41,24 @@ const getUsuarios = async (req, res) => {
 
 const getUsuario = async (req, res) => {
   try {
+    // req.body aqui viene la info del cliente con las variables
+    // req = {
+    //     body: {
+    //         usuario
+    //     },
+    //      params: {
+    //          codigo_usuario: "",
+    //      }
+    // }
+
     const { codigo_usuario } = req.params;
 
     const usuario = await getUsuarioByIDService(codigo_usuario);
 
     if (!usuario) {
-      errorMessage.error = "No fue posible realizar la consulta.";
+      // usuario = NULL
+      errorMessage.error =
+        "No fue posible realizar la consulta. Es posible que el usuario no exista.";
       return res.status(status.bad).send(errorMessage);
     }
 
@@ -101,6 +113,12 @@ const editUsuario = async (req, res) => {
   const transaction = await db.transaction();
 
   try {
+    // req.body aqui viene la info del cliente con las variables
+    // req = {
+    //     body: {
+    //         usuario
+    //     }
+    // }
     const { usuario } = req.body;
     const { codigo_usuario } = req.params;
 
@@ -170,7 +188,8 @@ const loginUser = async (req, res) => {
         providedPassword: contrasenia,
       })
     ) {
-      errorMessage.error = "Credenciales no validas";
+      errorMessage.error =
+        "Credenciales no validas. Correo o contraseña no valida.";
       return res.status(status.unauthorized).send(errorMessage);
     }
 
@@ -180,6 +199,8 @@ const loginUser = async (req, res) => {
       correo_electronico: user.correo_electronico,
       usuario: user.usuario,
       grupo_permisos: user.grupo_permisos,
+      descripcion: user.grupo_permiso.descripcion,
+      es_administrador: user.grupo_permiso.es_administrador,
     };
 
     const token = generateToken(userToken);
