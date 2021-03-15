@@ -64,6 +64,7 @@ const getUserByUserNameService = async (usuario) => {
       },
     ],
   });
+
   return user;
 };
 
