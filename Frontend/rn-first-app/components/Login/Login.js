@@ -10,6 +10,9 @@ import {
   Animated,
   Dimensions,
   TouchableOpacity,
+  ToastAndroid,
+  Platform,
+  Alert,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import * as Animatable from "react-native-animatable";
@@ -21,8 +24,14 @@ export const Login = () => {
 
   const [enable, setEnable] = useState(true);
 
+  const [userName, setUserName] = useState(null);
+  const [password, setPassword] = useState(null);
+
   const _animation = () => {
-    Animated.timing(animationLogin, { toValue: 40, duration: 250 }).start();
+    Animated.timing(animationLogin, {
+      toValue: 40,
+      duration: 250,
+    }).start();
     setTimeout(() => {
       setEnable(false);
     }, 150);
@@ -51,17 +60,47 @@ export const Login = () => {
       <View style={styles.footer}>
         <Text style={[styles.title, { marginTop: 50 }]}>Usuario</Text>
         <View style={styles.action}>
-          <TextInput placeholder="Usuario" style={styles.textInput} />
+          <TextInput
+            placeholder="Usuario"
+            style={styles.textInput}
+            onChangeText={(value) => setUserName(value)}
+            value={userName}
+          />
         </View>
         <Text style={[styles.title, { marginTop: 20 }]}>Contraseña</Text>
         <View style={styles.action}>
           <TextInput
             placeholder="Contraseña"
             style={styles.textInput}
+            onChangeText={(value) => setPassword(value)}
+            value={password}
             secureTextEntry
           />
         </View>
-        <TouchableOpacity onPress={() => _animation()}>
+        <TouchableOpacity
+          onPress={() => {
+            if (
+              (userName === null || userName === "") &&
+              (password === null || password === "")
+            ) {
+              if (Platform.OS === "android") {
+                ToastAndroid.show(
+                  "El usuario y contraseña son campos requeridos",
+                  ToastAndroid.SHORT
+                );
+                return;
+              }
+
+              Alert.alert(
+                "Login Error",
+                "El usuario y contraseña son campos requeridos",
+                [{ text: "OK" }]
+              );
+            }
+
+            return _animation();
+          }}
+        >
           <View style={styles.button_container}>
             <Animated.View
               style={[styles.animation, { width: animationLogin }]}
