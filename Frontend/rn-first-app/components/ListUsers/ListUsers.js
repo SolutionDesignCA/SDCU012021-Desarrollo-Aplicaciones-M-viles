@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
+  ScrollView,
 } from "react-native";
 import { UserItem } from "../UserItem/UserItem";
 
@@ -33,11 +34,13 @@ export const ListUsers = () => {
       <View style={styles.usersWrapper}>
         <Text style={styles.sectionTitle}>Usuarios</Text>
         <View style={styles.items}>
-          {users.map((user, index) => (
-            <TouchableOpacity key={index} onPress={() => removeUser(index)}>
-              <UserItem userName={user} />
-            </TouchableOpacity>
-          ))}
+          <ScrollView>
+            {users.map((user, index) => (
+              <TouchableOpacity key={index} onPress={() => removeUser(index)}>
+                <UserItem userName={user} />
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
       </View>
 
