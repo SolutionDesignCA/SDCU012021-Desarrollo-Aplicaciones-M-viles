@@ -2,13 +2,14 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { ListUsers } from "./components/ListUsers/ListUsers";
 import { Login } from "./components/Login/Login";
+import { NavigationContainer } from "@react-navigation/native";
+import { TabNavigator } from "./components/Navigation/TabNavigator";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      {/* <Login /> */}
-      <ListUsers />
-    </View>
+    <NavigationContainer>
+      <TabNavigator />
+    </NavigationContainer>
   );
 }
 
