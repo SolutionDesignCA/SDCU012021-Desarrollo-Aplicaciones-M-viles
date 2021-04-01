@@ -16,8 +16,10 @@ import {
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import * as Animatable from "react-native-animatable";
+import { connect } from "react-redux";
+import * as actions from "../../actions/auth";
 
-export const Login = () => {
+const Login = ({ onSubmit }) => {
   const [animationLogin, animateLogin] = useState(
     new Animated.Value(width - 40)
   );
@@ -98,6 +100,8 @@ export const Login = () => {
               );
             }
 
+            onSubmit({ userName, password });
+
             return _animation();
           }}
         >
@@ -177,3 +181,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
+
+export default connect(undefined, (dispatch) => ({
+  onSubmit({ userName, password }) {
+    // console.log(userName, password);
+    dispatch(actions.startLogin(userName, password));
+  },
+}))(Login);

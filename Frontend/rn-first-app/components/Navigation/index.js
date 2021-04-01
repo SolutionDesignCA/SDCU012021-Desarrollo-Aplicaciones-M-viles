@@ -7,49 +7,44 @@ import { connect } from "react-redux";
 import * as selectors from "../../reducers";
 import * as actions from "../../actions/auth";
 
-const Main = ({ isAuthenticating, setIsLoading }) => {
-  // console.log(isAuthenticating);
-
+const Main = ({ isAuthenticating, setIsLoading, user }) => {
   /**
    * Ya no necesitamos estado local porque lo
    * manejaremos en el estado global
    */
   // const [isLoading, setisLoading] = useState(true);
 
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
 
   useEffect(() => {
     // Set isLoading
-    setTimeout(() => {
-      setIsLoading();
-    }, 500);
-
+    // setTimeout(() => {
+    //   setIsLoading();
+    // }, 500);
     // Set User
-    setTimeout(() => {
-      setUser({});
-    }, 1000);
+    // setTimeout(() => {
+    //   setUser({});
+    // }, 1000);
   }, []);
 
   return (
     <NavigationContainer>
-      {isAuthenticating ? (
+      {/* {isAuthenticating ? (
         <Loading />
-      ) : user ? (
-        <TabNavigator />
-      ) : (
-        <AuthNavigator />
-      )}
+      ) :  */}
+      {user ? <TabNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 };
 
 export default connect(
   (state) => ({
-    isAuthenticating: selectors.getIsAuthenticating(state),
+    // isAuthenticating: selectors.getIsAuthenticating(state),
+    user: selectors.getAuthUser(state),
   }),
   (dispatch) => ({
     setIsLoading() {
-      dispatch(actions.completeLogin({ usuario: "prueba" }));
+      // dispatch(actions.completeLogin({ usuario: "prueba" }));
     },
   })
 )(Main);

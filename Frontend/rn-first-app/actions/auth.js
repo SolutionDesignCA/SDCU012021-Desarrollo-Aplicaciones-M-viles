@@ -1,8 +1,8 @@
 import * as types from "../types/auth";
 
-export const startLogin = (user_name, password) => ({
+export const startLogin = (usuario, contrasenia) => ({
   type: types.AUTHENTICATION_STARTED,
-  payload: { user_name, password },
+  payload: { usuario, contrasenia },
 });
 
 export const completeLogin = (token) => ({

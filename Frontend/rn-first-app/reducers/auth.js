@@ -28,8 +28,7 @@ const decoded = (state = null, action) => {
       return null;
     }
     case types.AUTHENTICATION_COMPLETED: {
-      return { ...action.payload };
-      //   return jwtDecode(action.payload.token);
+      return jwtDecode(action.payload.token);
     }
     case types.TOKEN_REFRESH_COMPLETED: {
       return jwtDecode(action.payload.newToken);
@@ -47,9 +46,9 @@ const decoded = (state = null, action) => {
 
 const isAuthenticating = (state = true, action) => {
   switch (action.type) {
-    case types.AUTHENTICATION_STARTED: {
-      return true;
-    }
+    // case types.AUTHENTICATION_STARTED: {
+    //   return true;
+    // }
     case types.AUTHENTICATION_COMPLETED: {
       return false;
     }
@@ -89,4 +88,4 @@ export default auth;
 export const getAuthToken = (state) => state.token;
 export const getIsAuthenticating = (state) => state.isAuthenticating;
 export const getAuthenticatingError = (state) => state.error;
-// ! TODO: Decoded selectors
+export const getAuthUser = (state) => state?.decoded;

@@ -15,6 +15,8 @@ export const getIsAuthenticating = (state) =>
   authSelectors.getIsAuthenticating(state.auth);
 export const getAuthenticatingError = (state) =>
   authSelectors.getAuthenticatingError(state.auth);
+export const getAuthUser = (state) => authSelectors.getAuthUser(state.auth);
+
 // ! TODO: Decoded Selectors
 
 // Users Selectors
