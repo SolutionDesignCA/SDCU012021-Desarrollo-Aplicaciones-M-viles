@@ -1,7 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Home } from "../Home/Home";
-import { ListUsers } from "../ListUsers/ListUsers";
+import ListUsers from "../ListUsers/ListUsers";
 import { Profile } from "../Profile/Profile";
 import { TabBar } from "../TabBar/TabBar";
 import { ProfileNavigator } from "./ProfileNavigator";

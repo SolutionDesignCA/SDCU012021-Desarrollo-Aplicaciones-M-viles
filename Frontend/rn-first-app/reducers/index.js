@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
 import auth, * as authSelectors from "./auth";
+import users, * as usersSelectors from "./users";
 
 const reducer = combineReducers({
   auth,
+  users,
 });
 
 export default reducer;
@@ -14,3 +16,10 @@ export const getIsAuthenticating = (state) =>
 export const getAuthenticatingError = (state) =>
   authSelectors.getAuthenticatingError(state.auth);
 // ! TODO: Decoded Selectors
+
+// Users Selectors
+
+export const getUser = (state) => usersSelectors.getUser(state.users);
+export const getUsersList = (state) => usersSelectors.getUsersList(state.users);
+export const getUserFromUsersList = (state) =>
+  usersSelectors.getUserFromList(state.users, index);

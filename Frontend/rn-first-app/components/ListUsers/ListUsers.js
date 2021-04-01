@@ -10,22 +10,27 @@ import {
   Keyboard,
   ScrollView,
 } from "react-native";
+import { connect } from "react-redux";
 import { UserItem } from "../UserItem/UserItem";
+import * as selectors from "../../reducers";
+import * as actions from "../../actions/users";
 
-export const ListUsers = () => {
+const ListUsers = ({ users, addUser, removeUser }) => {
   const [user, setuser] = useState();
-  const [users, setUserItems] = useState([]);
+
+  /**
+   * Ya no necesitamos esto, estara en el estado global
+   */
+  // const [users, setUserItems] = useState([]);
 
   const handleAddUser = () => {
     Keyboard.dismiss();
-    setUserItems([...users, user]);
+    addUser(user);
     setuser(null);
   };
 
-  const removeUser = (index) => {
-    const usersCopy = [...users];
-    usersCopy.splice(index, 1);
-    setUserItems(usersCopy);
+  const handleRemoveUser = (index) => {
+    removeUser(index);
   };
 
   return (
@@ -36,7 +41,10 @@ export const ListUsers = () => {
         <View style={styles.items}>
           <ScrollView>
             {users.map((user, index) => (
-              <TouchableOpacity key={index} onPress={() => removeUser(index)}>
+              <TouchableOpacity
+                key={index}
+                onPress={() => handleRemoveUser(index)}
+              >
                 <UserItem userName={user} />
               </TouchableOpacity>
             ))}
@@ -64,6 +72,20 @@ export const ListUsers = () => {
     </View>
   );
 };
+
+export default connect(
+  (state) => ({
+    users: selectors.getUsersList(state),
+  }),
+  (dispatch) => ({
+    addUser(user) {
+      dispatch(actions.completeAddingUser(user));
+    },
+    removeUser(index) {
+      dispatch(actions.startRemovingUser(index));
+    },
+  })
+)(ListUsers);
 
 const styles = StyleSheet.create({
   container: {
