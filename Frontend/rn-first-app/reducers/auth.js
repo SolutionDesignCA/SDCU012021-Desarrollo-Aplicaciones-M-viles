@@ -28,7 +28,7 @@ const decoded = (state = null, action) => {
       return null;
     }
     case types.AUTHENTICATION_COMPLETED: {
-      return jwtDecode(action.payload.token);
+      return action.payload.token ? jwtDecode(action.payload.token) : null;
     }
     case types.TOKEN_REFRESH_COMPLETED: {
       return jwtDecode(action.payload.newToken);
