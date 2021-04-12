@@ -1,7 +1,10 @@
 import React from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
+import { connect } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as actions from "../../actions/auth";
 
-export const Profile = ({ navigation }) => {
+const Profile = ({ navigation, logout }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Perfil de Usuario</Text>
@@ -9,9 +12,17 @@ export const Profile = ({ navigation }) => {
         title="Ir a otra pantalla"
         onPress={() => navigation.navigate("Test")}
       />
+      <Button title="Cerrar Sesión" onPress={() => logout()} />
     </View>
   );
 };
+
+export default connect(undefined, (dispatch) => ({
+  logout() {
+    dispatch(actions.logout());
+    AsyncStorage.removeItem("token");
+  },
+}))(Profile);
 
 const styles = StyleSheet.create({
   container: {
