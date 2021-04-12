@@ -6,8 +6,10 @@ import { Loading } from "../Loading/Loading";
 import { connect } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import jwtDecode from "jwt-decode";
+import NetInfo from "@react-native-community/netinfo";
 import * as selectors from "../../reducers";
 import * as actions from "../../actions/auth";
+import { Alert, ToastAndroid } from "react-native";
 
 const storeData = async (token) => {
   try {
@@ -41,8 +43,22 @@ const isExpired = (token) => {
 };
 
 const Main = ({ isAuthenticating, setIsLoading, user, token, persist }) => {
+  const [networkConnection, setnetworkConnection] = useState(false);
+
+  console.log("Is connected?", networkConnection);
+
+  if (!networkConnection) {
+    ToastAndroid.show("No hay coneccion", ToastAndroid.LONG);
+  }
+
   token ? storeData(token) : null;
   // console.log("token", token);
+
+  let NetInfoSubscripction = null;
+
+  const _handleConnectivityChange = (state) => {
+    setnetworkConnection(state.isConnected);
+  };
 
   /**
    * Ya no necesitamos estado local porque lo
@@ -62,7 +78,13 @@ const Main = ({ isAuthenticating, setIsLoading, user, token, persist }) => {
     //   setUser({});
     // }, 1000);
 
+    NetInfoSubscripction = NetInfo.addEventListener(_handleConnectivityChange);
+
     getData(persist, setIsLoading);
+
+    return () => {
+      NetInfoSubscripction && NetInfoSubscripction();
+    };
   }, []);
 
   return (
