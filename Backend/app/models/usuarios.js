@@ -42,6 +42,9 @@ const Usuarios = db.define(
         deferrable: Deferrable.INITIALLY_IMMEDIATE,
       },
     },
+    cantidad: {
+      type: DataTypes.INTEGER,
+    },
   },
   { tableName: "usuarios", timestamps: false }
 );

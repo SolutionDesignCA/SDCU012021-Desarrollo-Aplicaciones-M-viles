@@ -20,7 +20,7 @@ const usersList = (state = [], action) => {
     case types.LOADING_USERS_STARTED:
       return [...state];
     case types.LOADING_USERS_COMPLETED:
-      return [...state, action.users];
+      return [...state, ...action.payload.users];
     case types.LOADING_USERS_FAILED:
       return [...state];
     case types.ADD_USER_COMPLETED:
@@ -29,6 +29,21 @@ const usersList = (state = [], action) => {
       const usersCopy = [...state];
       usersCopy.splice(action.payload.index, 1);
       return usersCopy;
+    case types.MODIFY_USER:
+      const newUsersList = state.map((user) =>
+        user.usuario === action.payload.user.usuario
+          ? { ...user, cantidad: action.payload.user.cantidad }
+          : user
+      );
+
+      // const usersC = [...state];
+      // const newUsersQuantityIndex = usersC.findIndex(
+      //   (user) => user.usuario === action.payload.user.usuario
+      // );
+      // usersC.splice(newUsersQuantityIndex, 1);
+      // usersC.push(action.payload.user);
+      // console.log(usersC);
+      return newUsersList;
     default:
       return state;
   }

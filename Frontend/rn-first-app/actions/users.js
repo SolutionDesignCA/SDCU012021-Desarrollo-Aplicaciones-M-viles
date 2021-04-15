@@ -1,5 +1,15 @@
 import * as types from "../types/users";
 
+export const startModifyUser = (user) => ({
+  type: types.MODIFY_USER,
+  payload: { user },
+});
+
+export const updateUser = (user) => ({
+  type: types.START_MODIFYING_ALL_USERS,
+  payload: { user },
+});
+
 export const startLoadingUsers = () => ({
   type: types.LOADING_USERS_STARTED,
 });

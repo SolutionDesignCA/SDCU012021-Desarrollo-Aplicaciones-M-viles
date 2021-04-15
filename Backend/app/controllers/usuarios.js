@@ -140,6 +140,7 @@ const editUsuario = async (req, res) => {
 
     return res.status(status.success).send(successMessage);
   } catch (e) {
+    console.log(e);
     errorMessage.error = "No fue posible editar el usuario.";
     await transaction.rollback();
     return res.status(status.error).send(errorMessage);

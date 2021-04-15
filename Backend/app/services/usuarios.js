@@ -10,6 +10,7 @@ const getUsuariosService = async () => {
       "correo_electronico",
       "usuario",
       "grupo_permisos",
+      "cantidad",
     ],
   });
 
@@ -22,6 +23,7 @@ const createNewUserService = async ({ usuario, transaction }) => {
 };
 
 const editUsuarioService = async ({ codigo_usuario, usuario, transaction }) => {
+  console.log("LLEGAAAAAAAAAAAA");
   const user = await Usuarios.findByPk(codigo_usuario);
 
   if (!user) {
@@ -39,6 +41,7 @@ const editUsuarioService = async ({ codigo_usuario, usuario, transaction }) => {
    * }
    */
 
+  console.log(usuario, user);
   user.set(usuario);
   await user.save({ transaction });
 

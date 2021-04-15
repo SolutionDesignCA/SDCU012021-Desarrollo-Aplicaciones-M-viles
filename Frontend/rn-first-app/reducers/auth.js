@@ -86,6 +86,7 @@ const auth = combineReducers({
 export default auth;
 
 export const getAuthToken = (state) => state.token;
+export const isAuthenticated = (state) => (state.token ? true : false);
 export const getIsAuthenticating = (state) => state.isAuthenticating;
 export const getAuthenticatingError = (state) => state.error;
 export const getAuthUser = (state) => state?.decoded;

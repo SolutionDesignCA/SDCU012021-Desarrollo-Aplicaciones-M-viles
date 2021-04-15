@@ -11,6 +11,8 @@ export default reducer;
 
 // Auth Selectors
 export const getAuthToken = (state) => authSelectors.getAuthToken(state.auth);
+export const isAuthenticated = (state) =>
+  authSelectors.isAuthenticated(state.auth);
 export const getIsAuthenticating = (state) =>
   authSelectors.getIsAuthenticating(state.auth);
 export const getAuthenticatingError = (state) =>

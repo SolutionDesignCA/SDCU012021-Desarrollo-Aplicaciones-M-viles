@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -11,27 +11,34 @@ import {
   ScrollView,
 } from "react-native";
 import { connect } from "react-redux";
-import { UserItem } from "../UserItem/UserItem";
+import UserItem from "../UserItem/UserItem";
 import * as selectors from "../../reducers";
 import * as actions from "../../actions/users";
 
-const ListUsers = ({ users, addUser, removeUser }) => {
+const ListUsers = ({ users, addUser, removeUser, loadUsers, modifyUsers }) => {
   const [user, setuser] = useState();
+
+  console.log(users);
 
   /**
    * Ya no necesitamos esto, estara en el estado global
    */
   // const [users, setUserItems] = useState([]);
 
-  const handleAddUser = () => {
-    Keyboard.dismiss();
-    addUser(user);
-    setuser(null);
-  };
+  // const handleAddUser = () => {
+  //   // Keyboard.dismiss();
+  //   // addUser(user);
+  //   // setuser(null);
+  // };
 
   const handleRemoveUser = (index) => {
     removeUser(index);
   };
+
+  useEffect(() => {
+    // * Llamada al API
+    loadUsers();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -45,7 +52,7 @@ const ListUsers = ({ users, addUser, removeUser }) => {
                 key={index}
                 onPress={() => handleRemoveUser(index)}
               >
-                <UserItem userName={user} />
+                <UserItem user={user} />
               </TouchableOpacity>
             ))}
           </ScrollView>
@@ -57,13 +64,13 @@ const ListUsers = ({ users, addUser, removeUser }) => {
         behavior={Platform.OS === "android" ? "height" : "padding"}
         style={styles.writeUserWrapper}
       >
-        <TextInput
+        {/* <TextInput
           style={styles.input}
           placeholder={"Agrega un Usuario"}
           value={user}
           onChangeText={(value) => setuser(value)}
-        />
-        <TouchableOpacity onPress={() => handleAddUser()}>
+        /> */}
+        <TouchableOpacity onPress={() => modifyUsers(users)}>
           <View style={styles.addWrapper}>
             <Text style={styles.addUser}>+</Text>
           </View>
@@ -83,6 +90,12 @@ export default connect(
     },
     removeUser(index) {
       dispatch(actions.startRemovingUser(index));
+    },
+    loadUsers() {
+      dispatch(actions.startLoadingUsers());
+    },
+    modifyUsers(users) {
+      users.forEach((user) => dispatch(actions.updateUser(user)));
     },
   })
 )(ListUsers);
